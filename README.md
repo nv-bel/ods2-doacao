@@ -1,11 +1,12 @@
+# ODS2 - FomeZero
 
-  # Página Inicial do Programa
+## Rodar o código
+1. Instale o PostgreSQL e crie o banco `ods_doacao`
 
-  This is a code bundle for Página Inicial do Programa. The original project is available at https://www.figma.com/design/pECGkcCqpRweZ9KnYheyYG/P%C3%A1gina-Inicial-do-Programa.
+Crie uma venv python: `python3 -m ven venv`
+Ative a venv
+Instale os requirements dentro da pasta backend `pip install -r backend/requirements.txt`
 
-  ## Running the code
+Com a venv ativa, inicie o backend com `python run.py`
 
-  Run `npm i` to install the dependencies.
-
-  Run `npm run dev` to start the development server.
-  
+Em outro terminal, inicie o frontend com `npm run dev`
