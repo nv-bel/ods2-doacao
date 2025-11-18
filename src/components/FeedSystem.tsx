@@ -184,7 +184,7 @@ interface FeedSystemProps {
 }
 
 export function FeedSystem({ currentUser, onNavigateBack }: FeedSystemProps) {
-  const [doacoes, setDoacoes] = useState<Doacao[]>(mockDoacoes);
+  const [doacoes, setDoacoes] = useState<Doacao[]>([]);
   const [isCreatingDonation, setIsCreatingDonation] = useState(false);
 
   // Função para captar doação (distribuidor)
