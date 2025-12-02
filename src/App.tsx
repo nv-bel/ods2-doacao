@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./com
 import { Badge } from "./components/ui/badge";
 import { Leaf, Heart, Users, ArrowRight, Truck, ChefHat } from "lucide-react";
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
+import { LoginForm } from "./components/LoginForm";
 import { SignupForm } from "./components/SignupForm";
 import { FeedSystem } from "./components/FeedSystem";
 import { useAuth } from "./contexts/AuthContext";
@@ -25,6 +26,16 @@ export default function App() {
   if (currentPage === "signup") {
     return (
       <SignupForm 
+        onNavigateHome={() => setCurrentPage("home")}
+        onSuccess={() => setCurrentPage("feed")}
+      />
+    );
+  }
+
+
+  if (currentPage === "login") {
+    return (
+      <LoginForm 
         onNavigateHome={() => setCurrentPage("home")}
         onSuccess={() => setCurrentPage("feed")}
       />
