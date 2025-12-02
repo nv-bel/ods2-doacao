@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "./components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card";
 import { Badge } from "./components/ui/badge";
@@ -13,6 +13,14 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<"home" | "signup" | "login" | "feed">("home");
   const { user, logout, isLoading } = useAuth();
 
+  useEffect(() => {
+    if (user && currentPage !== "feed") {
+      setCurrentPage("feed");
+    } else if (!user && currentPage === "feed") {
+      setCurrentPage("home");
+    }
+  }, [user]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F2FAF5]">
@@ -20,6 +28,18 @@ export default function App() {
           <Leaf className="h-12 w-12 text-green-600 animate-bounce" />
         </div>
       </div>
+    );
+  }
+
+  if (user) {
+    return (
+      <FeedSystem 
+        currentUser={user} 
+        onNavigateBack={() => {
+          logout();
+          setCurrentPage("home");
+        }}
+      />
     );
   }
 
@@ -32,7 +52,6 @@ export default function App() {
     );
   }
 
-
   if (currentPage === "login") {
     return (
       <LoginForm 
@@ -42,21 +61,8 @@ export default function App() {
     );
   }
 
-  if ((currentPage === "feed" || user) && user) {
-    return (
-      <FeedSystem 
-        currentUser={user} 
-        onNavigateBack={() => {
-          setCurrentPage("home");
-          logout();
-        }}
-      />
-    );
-  }
-
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -73,7 +79,7 @@ export default function App() {
             <a href="#usuarios" className="text-muted-foreground hover:text-foreground transition-colors">
               Para Você
             </a>
-            </nav>
+          </nav>
           <div className="flex items-center gap-3">
             <Button variant="outline" onClick={() => setCurrentPage("login")}>Entrar</Button>
             <Button onClick={() => setCurrentPage("signup")}>Cadastrar-se</Button>
