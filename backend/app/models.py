@@ -44,7 +44,10 @@ class Donation(db.Model):
     produtor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     titulo = db.Column(db.String(200), nullable=False)
     descricao = db.Column(db.Text, nullable=False)
+    tipo = db.Column(db.String(20), nullable=False)
     quantidade = db.Column(db.String(100), nullable=False)
+    data_colheita = db.Column(db.Date, nullable=False)
+    data_limite = db.Column(db.Date, nullable=False)
     status = db.Column(db.String(20), default='disponivel')
     cozinheiro_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -56,13 +59,17 @@ class Donation(db.Model):
         return {
             'id': self.id,
             'produtor_id': self.produtor_id,
-            'produtor_nome': self.produtor.nome,
+            'produtor': self.produtor.to_dict(),
             'titulo': self.titulo,
             'descricao': self.descricao,
+            'tipo': self.tipo,
             'quantidade': self.quantidade,
+            'unidade': 'kg',
+            'data_colheita': self.data_colheita.isoformat(),
+            'data_limite': self.data_limite.isoformat(),
             'status': self.status,
             'cozinheiro_id': self.cozinheiro_id,
-            'cozinheiro_nome': User.query.get(self.cozinheiro_id).nome if self.cozinheiro_id else None,
+            'cozinheiro': User.query.get(self.cozinheiro_id).to_dict() if self.cozinheiro_id else None,
             'created_at': self.created_at.isoformat(),
             'accepted_at': self.accepted_at.isoformat() if self.accepted_at else None
         }
